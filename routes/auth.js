@@ -1,27 +1,39 @@
-const { register } = require('../services/authService');
+// service functionals
+const { register, login } = require('../services/authService');
+
+// utils
+const validateCredentialsFormat = require('../utils/validateCredentialsFormat');
 
 const authRouter = require('express').Router();
 
 authRouter.post('/register', async (req, res) => {
     const { username, password } = req.body;
-
-    if (username == undefined || password == undefined) {
-        return res.status(403).json({ message: 'You must to provide username and password in request body!' });
-    }
-    if (username == '' || username.length < 3 || username.length > 20) {
-        return res.status(403).json({ message: 'Username must be between 3 and 20 characters!' });
-    }
-    if (password == '' || password.length < 6 || password.length > 30) {
-        return res.status(403).json({ message: 'Password must be between 6 and 30 characters!' });
-    }
-
+    
     try {
-        const userData = await register(username, password);
+        validateCredentialsFormat(username, password);
 
-        res.status(200).json(userData); //{"_id": "...", "username": "...","accessToken": "..."}
+        const userData = await register(username.trim().toLowerCase(), password.trim());
+
+        res.status(200).json(userData); // {"_id": "...", "username": "...","accessToken": "..."}
     } catch (err) {
-        res.status(404).json({ message: err.message });
+        res.status(400).json({ message: err.message });
     }
 });
+
+authRouter.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        validateCredentialsFormat(username, password);
+
+        const userData = await login(username.trim().toLowerCase(), password.trim());
+
+        res.status(200).json(userData); // {"_id": "...", "username": "...","accessToken": "..."}
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+
+});
+
 
 module.exports = authRouter;
