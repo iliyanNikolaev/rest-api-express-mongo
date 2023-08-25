@@ -1,5 +1,5 @@
 // service functionals
-const { register, login } = require('../services/authService');
+const { register, login, logout } = require('../services/authService');
 
 // utils
 const validateCredentialsFormat = require('../utils/validateCredentialsFormat');
@@ -32,7 +32,17 @@ authRouter.post('/login', async (req, res) => {
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
+});
 
+authRouter.get('/logout', async (req, res) => {
+    const token = req.headers['x-authorization'];
+
+    if(token) {
+        await logout(token);
+        return res.status(204).end();
+    }
+
+    res.status(400).json({ message: 'You must be authenticated to send a logout request!'});
 });
 
 

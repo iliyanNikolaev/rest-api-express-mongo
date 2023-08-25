@@ -1,5 +1,6 @@
 //models
 const User = require('../models/User');
+const InvalidToken = require('../models/InvalidToken');
 
 //depends
 const bcrypt = require('bcrypt');
@@ -53,12 +54,36 @@ function createToken(user) {
         _id: user._id
     }
 
-    return jwt.sign(payload, process.env.JWT_SECRET);
+    return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '12h' });
 }
 
+async function logout(token) {
+    const isTokenExistInBase = await checkForInvalidToken(token);
+
+    if(!isTokenExistInBase) {
+        
+        await InvalidToken.create({
+            token,
+            createdAt: new Date()
+        });
+    }
+}
+
+async function checkForInvalidToken(token) {
+    const tokensFromBase = await InvalidToken.find({});
+
+    for (const tokenInBase of tokensFromBase) {
+        if(tokenInBase.token == token) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 
 module.exports = {
     register,
-    login
+    login,
+    logout
 }
