@@ -2,6 +2,9 @@
 
 HOST: http://localhost:3001
 
+## AUTHENTICATION LOGIC SCHEME
+![auth logic](authScheme.png)
+
 ### AUTH
 
 ```javascript
