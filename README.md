@@ -140,3 +140,114 @@ fetch('http://localhost:3001/api/users/:id/unfollow', {
 
 Success response: 202 { "message": "You unfollow successfully this user." } 
 ```
+
+### POSTS
+
+```javascript
+>>> Get Post By Id <<<
+
+fetch('http://localhost:3001/api/posts/:id');
+
+Success response: 200 OK {"_id": "...", "owner": "...", "content": "...", "image": "...", "likes": [...], "createdAt": "...", "updatedAt": "..."}
+```
+
+```javascript
+>>> Get All Posts From Current User <<<
+
+//if posts from current user no exists response will be empty array
+
+fetch('http://localhost:3001/api/posts/from/:userId');
+
+Success response: 200 OK [ posts... ]
+```
+
+```javascript
+>>> Create Post <<<
+
+//Must be authenticated with valid token in request headers to perform this request
+
+fetch('http://localhost:3001/api/posts/create', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-Authorization': 'here is your accessToken'
+    },
+    body: JSON.stringify({
+        content: 'REQUIRED',
+        image: 'NOT REQUIRED'
+    })
+});
+
+Success response: 200 OK {"_id": "...", "owner": "...", "content": "...", "image": "...", "likes": [...], "createdAt": "...", "updatedAt": "..."}
+```
+
+```javascript
+>>> Edit Post By Id<<<
+
+//Must be authenticated with valid access token in request headers to perform this request,
+//Must be a owner on current post to perform this request,
+//Оnly this properties those you submit in the request body will be updated
+
+fetch('http://localhost:3001/api/posts/:id', {
+    method: 'PUT',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-Authorization': 'here is your accessToken'
+    },
+    body: JSON.stringify({
+        content: 'REQUIRED',
+        image: 'NOT REQUIRED'
+    })
+});
+
+Success response: 200 OK { "this is a json with edited properties" }
+```
+
+```javascript
+>>> Delete Post By Id<<<
+
+//Must be authenticated with valid access token in request headers to perform this request,
+//Must be a owner on current post to perform this request
+
+fetch('http://localhost:3001/api/posts/:id', {
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-Authorization': 'here is your accessToken'
+    }
+});
+
+Success response: 202 OK { "message": "You delete successfully this post."}
+```
+
+```javascript
+>>> Like Post By PostId<<<
+
+//Must be authenticated with valid access token in request headers to perform this request
+
+fetch('http://localhost:3001/api/posts/:postId/like', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-Authorization': 'here is your accessToken'
+    }
+});
+
+Success response: 202 OK { "message": "You successfully like this post."}
+```
+
+```javascript
+>>> Unlike Post By PostId<<<
+
+//Must be authenticated with valid access token in request headers to perform this request
+
+fetch('http://localhost:3001/api/posts/:postId/unlike', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-Authorization': 'here is your accessToken'
+    }
+});
+
+Success response: 202 OK { "message": "You successfully unlike this post."}
+```
