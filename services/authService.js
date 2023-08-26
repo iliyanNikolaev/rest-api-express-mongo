@@ -48,15 +48,6 @@ async function login(username, password) {
     }
 }
 
-function createToken(user) {
-    const payload = {
-        username: user.username,
-        _id: user._id
-    }
-
-    return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '12h' });
-}
-
 async function logout(token) {
     const isTokenExistInBase = await checkForInvalidToken(token);
 
@@ -67,6 +58,15 @@ async function logout(token) {
             createdAt: new Date()
         });
     }
+}
+
+function createToken(user) {
+    const payload = {
+        username: user.username,
+        _id: user._id
+    }
+
+    return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '12h' });
 }
 
 async function checkForInvalidToken(token) {
@@ -81,9 +81,20 @@ async function checkForInvalidToken(token) {
     return false;
 }
 
+function verifyToken(token) {
+    try {
+        const verifiedToken = jwt.verify(token, process.env.JWT_SECRET);
+        return verifiedToken; // {username: '...', _id: '...'}
+    } catch (err) {
+        throw err;
+    }
+}
+
 
 module.exports = {
     register,
     login,
-    logout
+    logout,
+    checkForInvalidToken, 
+    verifyToken
 }

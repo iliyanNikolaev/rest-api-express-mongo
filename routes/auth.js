@@ -1,4 +1,4 @@
-// service functionals
+// service functions
 const { register, login, logout } = require('../services/authService');
 
 // utils
@@ -39,7 +39,7 @@ authRouter.get('/logout', async (req, res) => {
 
     if(token) {
         await logout(token);
-        return res.status(204).end();
+        return res.status(204).end(); // No Content
     }
 
     res.status(400).json({ message: 'You must be authenticated to send a logout request!'});
