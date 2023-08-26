@@ -39,7 +39,7 @@ authRouter.get('/logout', async (req, res) => {
 
     if(token) {
         await logout(token);
-        return res.status(204).end(); // No Content
+        return res.status(202).json({ message: 'You successfully logout.'});
     }
 
     res.status(400).json({ message: 'You must be authenticated to send a logout request!'});

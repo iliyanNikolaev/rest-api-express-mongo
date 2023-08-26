@@ -1,5 +1,5 @@
 //service functions 
-const { getUserById, updateUserById, deleteUserById } = require('../services/userService');
+const { getUserById, updateUserById, deleteUserById, followUserById, unfollowUserById } = require('../services/userService');
 
 //middlewares
 const isAuthenticated = require('../middlewares/isAuthenticated');
@@ -9,6 +9,7 @@ const validateProfileDetailsFormat = require('../utils/validateProfileDetailsFor
 
 const userRouter = require('express').Router();
 
+//get user details
 userRouter.get('/:id', async (req, res) => {
     const id = req.params.id;
 
@@ -16,13 +17,14 @@ userRouter.get('/:id', async (req, res) => {
         const currentUser = await getUserById(id); // {"_id": "...", username: user.username, "profilePicture": "...", "coverPicture": "...", "followers": [...], "following": [...]}
         res.status(200).json(currentUser);
     } catch (err) {
-        res.status(404).json({ message: err.message });
+        res.status(400).json({ message: err.message });
     }
 });
 
+//edit user
 userRouter.put('/:id', isAuthenticated, async (req, res) => {
     if(req.userData._id != req.params.id) {
-        return res.status(401).json({ message: 'You can edit only your profile!' });
+        return res.status(400).json({ message: 'You can edit only your profile!' });
     }
 
     const { username, profilePicture, coverPicture, description } = req.body;
@@ -32,23 +34,55 @@ userRouter.put('/:id', isAuthenticated, async (req, res) => {
         
         await updateUserById(req.params.id, validProfileDetails);
 
-        res.status(202).json(validProfileDetails);
+        res.status(200).json(validProfileDetails);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 });
 
+//delete user
 userRouter.delete('/:id', isAuthenticated, async (req, res) => {
     if(req.userData._id != req.params.id) {
-        return res.status(401).json({ message: 'You can delete only your profile!' });
+        return res.status(400).json({ message: 'You can delete only your profile!' });
     }
 
     try {
         await deleteUserById(req.params.id);
-        res.status(204).end();
+
+        res.status(202).json({ message: 'You delete successfully this user.'});
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 });
 
+//follow user
+userRouter.post('/:id/follow', isAuthenticated, async (req, res) => {
+    if(req.userData._id == req.params.id) {
+        return res.status(400).json({ message: 'You can\'t follow yourself!'})
+    }
+
+    try {
+        await followUserById(req.userData._id, req.params.id);
+
+        res.status(202).json({ message: 'You follow successfully this user.'})
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+//unfollow user
+
+userRouter.post('/:id/unfollow', isAuthenticated, async (req, res) => {
+    if(req.userData._id == req.params.id) {
+        return res.status(400).json({ message: 'You can\'t unfollow yourself!'})
+    }
+
+    try {
+        await unfollowUserById(req.userData._id, req.params.id);
+
+        res.status(202).json({ message: 'You unfollow successfully this user.'})
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
 module.exports = userRouter;

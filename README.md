@@ -51,7 +51,7 @@ fetch('http://localhost:3001/api/auth/logout', {
     }
 });
 
-Success response: 204 No Content
+Success response: 202 { "message": "You successfully logout." }
 // after this request your current ассеssТoken becomes invalid
 ```
 
@@ -103,5 +103,37 @@ fetch('http://localhost:3001/api/users/:id', {
     }
 });
 
-Success response: 204 No Content 
+Success response: 202 { "message": "You delete successfully this user." } 
+```
+
+```javascript
+>>> Follow User By Id <<<
+
+//You can't follow yourself, must be authenticated with valid accessToken in request headers 
+
+fetch('http://localhost:3001/api/users/:id/follow', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-Authorization': 'here is your accessToken'
+    }
+});
+
+Success response: 202 { "message": "You follow successfully this user." } 
+```
+
+```javascript
+>>> Unfollow User By Id <<<
+
+//You can't unfollow yourself, must be authenticated with valid accessToken in request headers 
+
+fetch('http://localhost:3001/api/users/:id/unfollow', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-Authorization': 'here is your accessToken'
+    }
+});
+
+Success response: 202 { "message": "You unfollow successfully this user." } 
 ```
