@@ -22,6 +22,11 @@ const userSchema = new Schema({
         type: String,
         default: ''
     },
+    description: {
+        type: String,
+        default: '',
+        max: 100
+    },
     followers: {
         type: Array,
         default: []
@@ -29,11 +34,7 @@ const userSchema = new Schema({
     following: {
         type: Array,
         default: []
-    },
-    isAdmin: {
-        type: Boolean,
-        default: false
-    },
+    }
 }, { timestamps: true});
 
 const User = model('User', userSchema);

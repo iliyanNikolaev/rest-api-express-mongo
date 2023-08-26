@@ -10,9 +10,9 @@ authRouter.post('/register', async (req, res) => {
     const { username, password } = req.body;
     
     try {
-        validateCredentialsFormat(username, password);
+        const validCredentials = validateCredentialsFormat(username, password);
 
-        const userData = await register(username.trim().toLowerCase(), password.trim());
+        const userData = await register(validCredentials.username, validCredentials.password);
 
         res.status(200).json(userData); // {"_id": "...", "username": "...","accessToken": "..."}
     } catch (err) {
@@ -24,9 +24,9 @@ authRouter.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        validateCredentialsFormat(username, password);
+        const validCredentials = validateCredentialsFormat(username, password);
 
-        const userData = await login(username.trim().toLowerCase(), password.trim());
+        const userData = await login(validCredentials.username, validCredentials.password);
 
         res.status(200).json(userData); // {"_id": "...", "username": "...","accessToken": "..."}
     } catch (err) {
