@@ -1,5 +1,5 @@
 //service functions
-const { createPost, getPostById, editPostById, deletePostById, getAllPostFromCurrentUser, likePost, unlikePost } = require('../services/postService');
+const { createPost, getPostById, editPostById, deletePostById, getAllPostFromCurrentUser, getNewsFeedPosts, likePost, unlikePost } = require('../services/postService');
 //middlewares
 const isAuthenticated = require('../middlewares/isAuthenticated');
 //utils
@@ -71,6 +71,16 @@ postsRouter.delete('/:id', isAuthenticated, async (req, res) => {
 postsRouter.get('/from/:id', async (req, res) => {
     try {
         const posts = await getAllPostFromCurrentUser(req.params.id);
+
+        res.status(200).json(posts);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+postsRouter.get('/news/followings', isAuthenticated, async (req, res) => {
+    try {
+        const posts = await getNewsFeedPosts(req.userData._id);
 
         res.status(200).json(posts);
     } catch (err) {

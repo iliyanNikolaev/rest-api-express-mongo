@@ -7,7 +7,7 @@ const userSchema = new Schema({
     coverPicture: { type: String, default: '' },
     description: { type: String, default: '', max: 100 },
     followers: { type: Array, default: [] },
-    following: { type: Array, default: [] }
+    followings: { type: Array, default: [] }
 }, { timestamps: true});
 
 const User = model('User', userSchema);

@@ -155,8 +155,20 @@ Success response: 200 OK {"_id": "...", "owner": "...", "content": "...", "image
 >>> Get All Posts From Current User <<<
 
 //if posts from current user no exists response will be empty array
+// this is the timeline for current user
 
 fetch('http://localhost:3001/api/posts/from/:userId');
+
+Success response: 200 OK [ posts... ]
+```
+
+```javascript
+>>> Get NewsFeed posts<<<
+
+//Must to be authenticated with valid access token to perform this request
+//This request returns all posts from you followings users
+
+fetch('http://localhost:3001/api/posts/news/followings');
 
 Success response: 200 OK [ posts... ]
 ```

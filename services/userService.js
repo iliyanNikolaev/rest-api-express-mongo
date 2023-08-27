@@ -11,7 +11,7 @@ async function getUserById(id) {
             profilePicture: user.profilePicture,
             coverPicture: user.coverPicture,
             followers: user.followers,
-            following: user.following
+            followings: user.followings
         };
     } catch (err) {
         throw new Error('This user not exist!');
@@ -39,11 +39,11 @@ async function followUserById(currentId, followId) {
         const currentUser = await User.findById(currentId);
         const followedUser = await User.findById(followId);
 
-        if (currentUser.following.includes(followedUser._id)) {
+        if (currentUser.followings.includes(followedUser._id)) {
             throw new Error('You already follow this user!');
         }
 
-        await currentUser.updateOne({ $push: { following: followId } });
+        await currentUser.updateOne({ $push: { followings: followId } });
         await followedUser.updateOne({ $push: { followers: currentId } });
     } catch (err) {
         throw new Error(err.message);
@@ -55,11 +55,11 @@ async function unfollowUserById(currentId, unfollowId) {
         const currentUser = await User.findById(currentId);
         const unfollowedUser = await User.findById(unfollowId);
 
-        if (!currentUser.following.includes(unfollowedUser._id)) {
+        if (!currentUser.followings.includes(unfollowedUser._id)) {
             throw new Error('You don\'t follow this user!');
         }
 
-        await currentUser.updateOne({ $pull: { following: unfollowId } });
+        await currentUser.updateOne({ $pull: { followings: unfollowId } });
         await unfollowedUser.updateOne({ $pull: { followers: currentId } });
 
     } catch (err) {

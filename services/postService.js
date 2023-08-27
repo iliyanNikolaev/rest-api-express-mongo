@@ -1,5 +1,6 @@
 //models
 const Post = require('../models/Post');
+const User = require('../models/User');
 
 async function createPost(data) {
     try {
@@ -39,7 +40,27 @@ async function getPostById(postId) {
 
 async function getAllPostFromCurrentUser(userId) {
     try {
-        const posts = Post.find({ owner: userId });
+        const posts = await Post.find({ owner: userId });
+
+        return posts;
+    } catch (err) {
+        throw new Error(err.message);
+    }
+}
+
+async function getNewsFeedPosts(userId) {
+    try {
+        let posts = [];
+
+        const currentUser = await User.findById(userId);
+
+        const followings = currentUser.followings;
+
+        for (const id of followings) {
+            const currentPosts = await getAllPostFromCurrentUser(id);
+
+            posts = posts.concat(currentPosts);
+        }
 
         return posts;
     } catch (err) {
@@ -81,6 +102,7 @@ module.exports = {
     editPostById,
     deletePostById,
     getAllPostFromCurrentUser,
+   getNewsFeedPosts,
     likePost,
     unlikePost
 }
