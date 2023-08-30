@@ -14,7 +14,7 @@ postsRouter.get('/:id', async (req, res) => {
 
         res.status(200).json(post);
     } catch (err) {
-        res.status(400).json({ message: err.message});
+        res.status(400).json({ error: err.message});
     }
 });
 
@@ -28,7 +28,7 @@ postsRouter.post('/create', isAuthenticated, async (req, res) => {
 
         res.status(200).json(createdPost);
     } catch (err) {
-        res.status(400).json({ message: err.message});
+        res.status(400).json({ error: err.message});
     }
 });
 
@@ -48,7 +48,7 @@ postsRouter.put('/:id', isAuthenticated, async (req, res) => {
 
         res.status(200).json(validatedPostData);
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -64,7 +64,7 @@ postsRouter.delete('/:id', isAuthenticated, async (req, res) => {
 
         return res.status(202).json({ message: 'You delete successfully this post.'})
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -74,7 +74,7 @@ postsRouter.get('/from/:id', async (req, res) => {
 
         res.status(200).json(posts);
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -84,7 +84,7 @@ postsRouter.get('/news/followings', isAuthenticated, async (req, res) => {
 
         res.status(200).json(posts);
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -94,7 +94,7 @@ postsRouter.post('/:id/like', isAuthenticated, async (req, res) => {
 
         res.status(202).json({ message: 'You successfully like this post!' });
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -104,7 +104,7 @@ postsRouter.post('/:id/unlike', isAuthenticated, async (req, res) => {
 
         res.status(202).json({ message: 'You successfully unlike this post!' });
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 

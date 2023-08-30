@@ -6,7 +6,7 @@ function validateCredentials(username, password){
         throw new Error('Username must be between 3 and 20 characters!');
     }
     if (password == '' || password.length < 6 || password.length > 30) {
-        throw new Error('Username must be between 3 and 20 characters!');
+        throw new Error('Password must be between 6 and 20 characters!');
     }
 
     return {

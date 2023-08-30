@@ -16,7 +16,7 @@ authRouter.post('/register', async (req, res) => {
 
         res.status(200).json(userData); // {"_id": "...", "username": "...","accessToken": "..."}
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -24,13 +24,13 @@ authRouter.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        const validCredentials = validateCredentialsFormat(username, password);
+        // const validCredentials = validateCredentialsFormat(username, password);
 
-        const userData = await login(validCredentials.username, validCredentials.password);
+        const userData = await login(username, password);
 
         res.status(200).json(userData); // {"_id": "...", "username": "...","accessToken": "..."}
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -42,7 +42,7 @@ authRouter.get('/logout', async (req, res) => {
         return res.status(202).json({ message: 'You successfully logout.'});
     }
 
-    res.status(400).json({ message: 'You must be authenticated to send a logout request!'});
+    res.status(400).json({ error: 'You must be authenticated to send a logout request!'});
 });
 
 
