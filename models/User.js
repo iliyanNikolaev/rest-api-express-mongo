@@ -5,7 +5,6 @@ const userSchema = new Schema({
     password: { type: String, required: true, min: 6, max: 30 },
     profilePicture: { type: String, default: '' },
     coverPicture: { type: String, default: '' },
-    description: { type: String, default: '', max: 100 },
     followers: { type: Array, default: [] },
     followings: { type: Array, default: [] }
 }, { timestamps: true});
