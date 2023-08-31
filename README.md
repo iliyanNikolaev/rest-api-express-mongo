@@ -66,7 +66,7 @@ Success response: 202 { "message": "You successfully logout." }
 
 fetch('http://localhost:3001/api/users/:id');
 
-Success response: 200 OK {"_id": "...", "username": "...", "profilePicture": "...", "coverPicture": "...", "followers": [...], "following": [...]}
+Success response: 200 OK {"_id": "...", "username": "...", "profilePicture": "...", "coverPicture": "...", "followers": [{ "_id", "username", "profilePicture"}, {...}, ...], "following": [{ "_id", "username", "profilePicture"}, {...}, ...]}
 ```
 
 ```javascript
@@ -148,7 +148,7 @@ Success response: 202 { "message": "You unfollow successfully this user." }
 
 fetch('http://localhost:3001/api/posts/:id');
 
-Success response: 200 OK {"_id": "...", "owner": "...", "content": "...", "image": "...", "likes": [...], "createdAt": "...", "updatedAt": "..."}
+Success response: 200 OK {"_id": "...", "owner": { "username", "profilePicture", "_id"}, "ownerProfilePic": "...", "content": "...", "image": "...", "likes": [{  "username", "profilePicture", "_id" }, {  "username", "profilePicture", "_id" }, ...], "comments": [...], "createdAt": "...", "updatedAt": "..."}
 ```
 
 ```javascript

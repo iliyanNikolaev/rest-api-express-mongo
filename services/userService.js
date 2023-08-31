@@ -3,7 +3,9 @@ const User = require('../models/User');
 
 async function getUserById(id) {
     try {
-        const user = await User.findById(id);
+        const user = await User.findById(id)
+            .populate({ path: 'followers', select: [ '_id', 'username', 'profilePicture']})
+            .populate({ path: 'followings', select: [ '_id', 'username', 'profilePicture']});
 
         return {
             _id: user._id,

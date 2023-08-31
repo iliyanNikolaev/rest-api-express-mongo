@@ -1,12 +1,11 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
 const postSchema = new Schema({
-    owner: { type: String, required: true },
-    ownerProfilePic: { type: String, default: '/assets/profile-pic.png'},
+    owner: { type: Types.ObjectId, required: true, ref: 'User' },
     content: { type: String, max: 500, default: '', requred: true},
     image: { type: String, default: ''},
-    likes: { type: Array, default: []},
-    comments: { type: Array, default: []}
+    likes: { type: [Types.ObjectId], default: [], ref: 'User' },
+    comments: { type: [Types.ObjectId], default: [], ref: 'User'}
 }, { timestamps: true });
 
 const Post = model('Post', postSchema);

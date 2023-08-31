@@ -30,7 +30,11 @@ async function deletePostById(postId) {
 
 async function getPostById(postId) {
     try {
-        const post = await Post.findById(postId);
+        const post =
+            await Post.findById(postId)
+                .populate({ path: 'owner', select: ['username', 'profilePicture', '_id'], model: User })
+                .populate({ path: 'likes', select: ['username', 'profilePicture', '_id'], model: User })
+                .populate({ path: 'comments', select: ['username', 'profilePicture', '_id'], model: User });
 
         return post;
     } catch (err) {
@@ -40,7 +44,11 @@ async function getPostById(postId) {
 
 async function getAllPostFromCurrentUser(userId) {
     try {
-        const posts = await Post.find({ owner: userId });
+        const posts =
+            await Post.find({ owner: userId })
+                .populate({ path: 'owner', select: ['username', 'profilePicture', '_id'], model: User })
+                .populate({ path: 'likes', select: ['username', 'profilePicture', '_id'], model: User })
+                .populate({ path: 'comments', select: ['username', 'profilePicture', '_id'], model: User });
 
         return posts;
     } catch (err) {
@@ -71,12 +79,12 @@ async function getNewsFeedPosts(userId) {
 async function likePost(userId, postId) {
     try {
         const currentPost = await Post.findById(postId);
-        
-        if(currentPost.likes.includes(userId)) {
+
+        if (currentPost.likes.includes(userId)) {
             throw new Error('You already liked this post!')
         }
 
-        await currentPost.updateOne({ $push: { likes: userId }});
+        await currentPost.updateOne({ $push: { likes: userId } });
     } catch (err) {
         throw new Error(err.message);
     }
@@ -85,12 +93,12 @@ async function likePost(userId, postId) {
 async function unlikePost(userId, postId) {
     try {
         const currentPost = await Post.findById(postId);
-        
-        if(!currentPost.likes.includes(userId)) {
+
+        if (!currentPost.likes.includes(userId)) {
             throw new Error('You dont\'t like this post!')
         }
 
-        await currentPost.updateOne({ $pull: { likes: userId }});
+        await currentPost.updateOne({ $pull: { likes: userId } });
     } catch (err) {
         throw new Error(err.message);
     }
@@ -102,7 +110,7 @@ module.exports = {
     editPostById,
     deletePostById,
     getAllPostFromCurrentUser,
-   getNewsFeedPosts,
+    getNewsFeedPosts,
     likePost,
     unlikePost
 }
