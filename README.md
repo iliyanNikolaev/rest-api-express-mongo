@@ -66,7 +66,17 @@ Success response: 202 { "message": "You successfully logout." }
 
 fetch('http://localhost:3001/api/users/:id');
 
-Success response: 200 OK {"_id": "...", "username": "...", "profilePicture": "...", "coverPicture": "...", "followers": [{ "_id", "username", "profilePicture"}, {...}, ...], "following": [{ "_id", "username", "profilePicture"}, {...}, ...]}
+Success response: 200 OK {"_id": "...", "username": "...", "profilePicture": "...", "coverPicture": "...", "followers": [{ "_id", "username", "profilePicture"}, {...}, ...], "followings": [{ "_id", "username", "profilePicture"}, {...}, ...]}
+```
+
+```javascript
+>>> Get Followings By userId <<<
+
+fetch('http://localhost:3001/api/users/:id/followings');
+
+Success response: 200 OK [ { "_id", "profilePicture", "username" } ... ]
+
+//if current user has no followings, server will return empty array
 ```
 
 ```javascript

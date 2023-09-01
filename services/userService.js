@@ -4,8 +4,8 @@ const User = require('../models/User');
 async function getUserById(id) {
     try {
         const user = await User.findById(id)
-            .populate({ path: 'followers', select: [ '_id', 'username', 'profilePicture']})
-            .populate({ path: 'followings', select: [ '_id', 'username', 'profilePicture']});
+            .populate({ path: 'followers', select: ['_id', 'username', 'profilePicture'] })
+            .populate({ path: 'followings', select: ['_id', 'username', 'profilePicture'] });
 
         return {
             _id: user._id,
@@ -15,6 +15,18 @@ async function getUserById(id) {
             followers: user.followers,
             followings: user.followings
         };
+    } catch (err) {
+        throw new Error('This user not exist!');
+    }
+}
+
+async function getFollowingsByUserId(userId) {
+    try {
+        const user = await User.findById(userId)
+            .populate({ path: 'followings', select: ['_id', 'username', 'profilePicture'] });
+
+
+        return [...user.followings];
     } catch (err) {
         throw new Error('This user not exist!');
     }
@@ -71,6 +83,7 @@ async function unfollowUserById(currentId, unfollowId) {
 
 module.exports = {
     getUserById,
+    getFollowingsByUserId,
     updateUserById,
     deleteUserById,
     followUserById,

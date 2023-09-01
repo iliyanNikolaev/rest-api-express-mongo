@@ -1,5 +1,5 @@
 //service functions 
-const { getUserById, updateUserById, deleteUserById, followUserById, unfollowUserById } = require('../services/userService');
+const { getUserById, updateUserById, deleteUserById, followUserById, unfollowUserById, getFollowingsByUserId } = require('../services/userService');
 
 //middlewares
 const isAuthenticated = require('../middlewares/isAuthenticated');
@@ -16,6 +16,19 @@ userRouter.get('/:id', async (req, res) => {
     try {
         const currentUser = await getUserById(id); // {"_id": "...", username: user.username, "profilePicture": "...", "coverPicture": "...", "followers": [...], "following": [...]}
         res.status(200).json(currentUser);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+userRouter.get('/:id/followings', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const connections = await getFollowingsByUserId(id);
+
+        res.status(200).json(connections);
+
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
