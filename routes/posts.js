@@ -1,5 +1,5 @@
 //service functions
-const { createPost, getPostById, editPostById, deletePostById, getAllPostFromCurrentUser, getNewsFeedPosts, likePost, unlikePost } = require('../services/postService');
+const { createPost, getPostById, editPostById, deletePostById, getAllPostFromCurrentUser, getNewsFeedPosts, likePost, unlikePost, getFirstTenPosts } = require('../services/postService');
 //middlewares
 const isAuthenticated = require('../middlewares/isAuthenticated');
 //utils
@@ -73,13 +73,23 @@ postsRouter.get('/from/:id', async (req, res) => {
 
         res.status(200).json(posts);
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        res.status(400).json({ error: 'This user not exist' });
     }
 });
 
 postsRouter.get('/news/followings', isAuthenticated, async (req, res) => {
     try {
         const posts = await getNewsFeedPosts(req.userData._id);
+
+        res.status(200).json(posts);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+postsRouter.get('/news/guest', async (req, res) => {
+    try {
+        const posts = await getFirstTenPosts();
 
         res.status(200).json(posts);
     } catch (err) {
@@ -108,3 +118,4 @@ postsRouter.post('/:id/unlike', isAuthenticated, async (req, res) => {
 });
 
 module.exports = postsRouter;
+

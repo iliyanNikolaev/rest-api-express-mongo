@@ -70,6 +70,27 @@ async function getNewsFeedPosts(userId) {
             posts = posts.concat(currentPosts);
         }
 
+        if(posts.length < 10) {
+            const firstTen = await getFirstTenPosts();
+
+            posts = posts.concat(firstTen).slice(0,9);
+        }
+
+        return posts;
+    } catch (err) {
+        throw new Error(err.message);
+    }
+}
+
+async function getFirstTenPosts() {
+    try {
+        const posts =
+            await Post.find({})
+                .populate({ path: 'owner', select: ['username', 'profilePicture', '_id'], model: User })
+                .populate({ path: 'likes', select: ['username', 'profilePicture', '_id'], model: User })
+                .populate({ path: 'comments', select: ['username', 'profilePicture', '_id'], model: User })
+                .limit(10);
+
         return posts;
     } catch (err) {
         throw new Error(err.message);
@@ -109,6 +130,7 @@ module.exports = {
     getPostById,
     editPostById,
     deletePostById,
+    getFirstTenPosts,
     getAllPostFromCurrentUser,
     getNewsFeedPosts,
     likePost,

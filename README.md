@@ -174,6 +174,17 @@ Success response: 200 OK [ posts... ]
 ```
 
 ```javascript
+>>> Get First Ten posts<<<
+
+//This request returns first 10 posts in base, this is usefull for home page when guest users open home page
+
+fetch('http://localhost:3001/api/posts/news/guest');
+
+Success response: 200 OK [ posts... ]
+```
+
+
+```javascript
 >>> Create Post <<<
 
 //Must be authenticated with valid token in request headers to perform this request
