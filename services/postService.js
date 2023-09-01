@@ -70,10 +70,8 @@ async function getNewsFeedPosts(userId) {
             posts = posts.concat(currentPosts);
         }
 
-        if(posts.length < 10) {
-            const firstTen = await getFirstTenPosts();
-
-            posts = posts.concat(firstTen).slice(0,9);
+        if(posts.length == 0) {
+            posts = await getFirstTenPosts();
         }
 
         return posts;

@@ -176,7 +176,9 @@ Success response: 200 OK [ posts... ]
 >>> Get NewsFeed posts<<<
 
 //Must to be authenticated with valid access token to perform this request
-//This request returns all posts from you followings users
+//This request returns all posts from you followings
+//if current user no have any followings or our followings no have any posts
+//server will return first 10 posts in base
 
 fetch('http://localhost:3001/api/posts/news/followings');
 
