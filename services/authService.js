@@ -25,6 +25,7 @@ async function register(username, password) {
         _id: user._id,
         username: user.username,
         accessToken: createToken(user),
+        profilePicture: user.profilePicture
     }
 }
 
@@ -45,6 +46,7 @@ async function login(username, password) {
         _id: user._id,
         username: user.username,
         accessToken: createToken(user),
+        profilePicture: user.profilePicture
     }
 }
 

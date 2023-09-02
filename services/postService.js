@@ -5,7 +5,10 @@ const User = require('../models/User');
 async function createPost(data) {
     try {
         const created = await Post.create(data);
+        const ownerProps = await User.findById(created.owner).select(['_id', 'username', 'profilePicture']);
 
+        created['owner'] = ownerProps;
+        
         return created;
     } catch (err) {
         throw new Error(err.message);
