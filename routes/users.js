@@ -75,7 +75,7 @@ userRouter.post('/:id/follow', isAuthenticated, async (req, res) => {
     try {
         await followUnfollowUserById(req.userData._id, req.params.id);
 
-        res.status(202).json({ message: 'You follow successfully this user.'})
+        res.status(202).json({ message: 'Success!'})
     } catch (err) {
         res.status(400).json({ error: err.message });
     }

@@ -120,9 +120,10 @@ Success response: 202 { "message": "You delete successfully this user." }
 ```
 
 ```javascript
->>> Follow User By Id <<<
+>>> Follow/Unfollow User By Id <<<
 
 //You can't follow yourself, must be authenticated with valid accessToken in request headers 
+//If you not follow current user, the request is follow, if you follow current user, the request is unfollow
 
 fetch('http://localhost:3001/api/users/:id/follow', {
     method: 'POST',
@@ -132,24 +133,9 @@ fetch('http://localhost:3001/api/users/:id/follow', {
     }
 });
 
-Success response: 202 { "message": "You follow successfully this user." } 
+Success response: 202 { "message": "Success!" } 
 ```
 
-```javascript
->>> Unfollow User By Id <<<
-
-//You can't unfollow yourself, must be authenticated with valid accessToken in request headers 
-
-fetch('http://localhost:3001/api/users/:id/unfollow', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-Authorization': 'here is your accessToken'
-    }
-});
-
-Success response: 202 { "message": "You unfollow successfully this user." } 
-```
 
 ### POSTS
 
@@ -256,9 +242,10 @@ Success response: 202 OK { "message": "You delete successfully this post."}
 ```
 
 ```javascript
->>> Like Post By PostId<<<
+>>> Like/Unlike Post By PostId<<<
 
 //Must be authenticated with valid access token in request headers to perform this request
+//If you not like current post, the request is like, if you like current post, the request is unlike
 
 fetch('http://localhost:3001/api/posts/:postId/like', {
     method: 'POST',
@@ -268,21 +255,5 @@ fetch('http://localhost:3001/api/posts/:postId/like', {
     }
 });
 
-Success response: 202 OK { "message": "You successfully like this post."}
-```
-
-```javascript
->>> Unlike Post By PostId<<<
-
-//Must be authenticated with valid access token in request headers to perform this request
-
-fetch('http://localhost:3001/api/posts/:postId/unlike', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-Authorization': 'here is your accessToken'
-    }
-});
-
-Success response: 202 OK { "message": "You successfully unlike this post."}
+Success response: 202 OK { "message": "Sucess!"}
 ```

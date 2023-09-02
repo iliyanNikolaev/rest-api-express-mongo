@@ -95,33 +95,21 @@ async function getFirstTenPosts() {
     }
 }
 
-async function likePost(userId, postId) {
+async function likeUnlikePost(userId, postId) {
     try {
         const currentPost = await Post.findById(postId);
 
         if (currentPost.likes.includes(userId)) {
-            throw new Error('You already liked this post!')
+            await currentPost.updateOne({ $pull: { likes: userId } });
+        } else {
+            await currentPost.updateOne({ $push: { likes: userId } });
         }
 
-        await currentPost.updateOne({ $push: { likes: userId } });
     } catch (err) {
         throw new Error(err.message);
     }
 }
 
-async function unlikePost(userId, postId) {
-    try {
-        const currentPost = await Post.findById(postId);
-
-        if (!currentPost.likes.includes(userId)) {
-            throw new Error('You dont\'t like this post!')
-        }
-
-        await currentPost.updateOne({ $pull: { likes: userId } });
-    } catch (err) {
-        throw new Error(err.message);
-    }
-}
 
 module.exports = {
     createPost,
@@ -131,6 +119,5 @@ module.exports = {
     getFirstTenPosts,
     getAllPostFromCurrentUser,
     getNewsFeedPosts,
-    likePost,
-    unlikePost
+    likeUnlikePost,
 }

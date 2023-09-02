@@ -1,5 +1,5 @@
 //service functions
-const { createPost, getPostById, editPostById, deletePostById, getAllPostFromCurrentUser, getNewsFeedPosts, likePost, unlikePost, getFirstTenPosts } = require('../services/postService');
+const { createPost, getPostById, editPostById, deletePostById, getAllPostFromCurrentUser, getNewsFeedPosts, likeUnlikePost, getFirstTenPosts } = require('../services/postService');
 //middlewares
 const isAuthenticated = require('../middlewares/isAuthenticated');
 //utils
@@ -99,7 +99,7 @@ postsRouter.get('/news/guest', async (req, res) => {
 
 postsRouter.post('/:id/like', isAuthenticated, async (req, res) => {
     try {
-        await likePost(req.userData._id, req.params.id);
+        await likeUnlikePost(req.userData._id, req.params.id);
 
         res.status(202).json({ message: 'You successfully like this post!' });
     } catch (err) {
@@ -107,15 +107,6 @@ postsRouter.post('/:id/like', isAuthenticated, async (req, res) => {
     }
 });
 
-postsRouter.post('/:id/unlike', isAuthenticated, async (req, res) => {
-    try {
-        await unlikePost(req.userData._id, req.params.id);
-
-        res.status(202).json({ message: 'You successfully unlike this post!' });
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
-});
 
 module.exports = postsRouter;
 
