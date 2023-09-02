@@ -72,6 +72,10 @@ async function getNewsFeedPosts(userId) {
 
         if(posts.length == 0) {
             posts = await getFirstTenPosts();
+        } else {
+            const ownPosts = await getAllPostFromCurrentUser(userId);
+
+            posts = posts.concat(ownPosts);
         }
 
         return posts;
