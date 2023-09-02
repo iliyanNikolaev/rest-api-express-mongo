@@ -1,5 +1,5 @@
 //service functions 
-const { getUserById, updateUserById, deleteUserById, followUserById, unfollowUserById, getFollowingsByUserId } = require('../services/userService');
+const { getUserById, updateUserById, deleteUserById, followUnfollowUserById, getFollowingsByUserId } = require('../services/userService');
 
 //middlewares
 const isAuthenticated = require('../middlewares/isAuthenticated');
@@ -73,7 +73,7 @@ userRouter.post('/:id/follow', isAuthenticated, async (req, res) => {
     }
 
     try {
-        await followUserById(req.userData._id, req.params.id);
+        await followUnfollowUserById(req.userData._id, req.params.id);
 
         res.status(202).json({ message: 'You follow successfully this user.'})
     } catch (err) {
@@ -81,19 +81,4 @@ userRouter.post('/:id/follow', isAuthenticated, async (req, res) => {
     }
 });
 
-//unfollow user
-
-userRouter.post('/:id/unfollow', isAuthenticated, async (req, res) => {
-    if(req.userData._id == req.params.id) {
-        return res.status(400).json({ error: 'You can\'t unfollow yourself!'})
-    }
-
-    try {
-        await unfollowUserById(req.userData._id, req.params.id);
-
-        res.status(202).json({ message: 'You unfollow successfully this user.'})
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
-});
 module.exports = userRouter;

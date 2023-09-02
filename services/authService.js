@@ -19,12 +19,12 @@ async function register(username, password) {
         username,
         password: hashedPass
     }); /* { _id: ..., username: '...', password: '...', profilePicture: '...', coverPicture: '', 
-    followers: [], following: [], isAdmin: ..., createdAt: ..., updatedAt: ...}*/
+    followers: [], followings: [], createdAt: ..., updatedAt: ...}*/
         
     return {
         _id: user._id,
         username: user.username,
-        accessToken: createToken(user)
+        accessToken: createToken(user),
     }
 }
 
@@ -44,7 +44,7 @@ async function login(username, password) {
     return {
         _id: user._id,
         username: user.username,
-        accessToken: createToken(user)
+        accessToken: createToken(user),
     }
 }
 
@@ -63,7 +63,7 @@ async function logout(token) {
 function createToken(user) {
     const payload = {
         username: user.username,
-        _id: user._id
+        _id: user._id,
     }
 
     return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '12h' });
