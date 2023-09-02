@@ -8,7 +8,7 @@ async function createPost(data) {
         const ownerProps = await User.findById(created.owner).select(['_id', 'username', 'profilePicture']);
 
         created['owner'] = ownerProps;
-        
+
         return created;
     } catch (err) {
         throw new Error(err.message);
@@ -37,7 +37,7 @@ async function getPostById(postId) {
             await Post.findById(postId)
                 .populate({ path: 'owner', select: ['username', 'profilePicture', '_id'], model: User })
                 .populate({ path: 'likes', select: ['username', 'profilePicture', '_id'], model: User })
-                .populate({ path: 'comments', select: ['username', 'profilePicture', '_id'], model: User });
+                .populate({ path: 'comments', select: ['username', 'profilePicture', '_id'], model: User })
 
         return post;
     } catch (err) {
@@ -51,7 +51,8 @@ async function getAllPostFromCurrentUser(userId) {
             await Post.find({ owner: userId })
                 .populate({ path: 'owner', select: ['username', 'profilePicture', '_id'], model: User })
                 .populate({ path: 'likes', select: ['username', 'profilePicture', '_id'], model: User })
-                .populate({ path: 'comments', select: ['username', 'profilePicture', '_id'], model: User });
+                .populate({ path: 'comments', select: ['username', 'profilePicture', '_id'], model: User })
+                .sort({createdAt: -1});
 
         return posts;
     } catch (err) {
@@ -94,7 +95,8 @@ async function getFirstTenPosts() {
                 .populate({ path: 'owner', select: ['username', 'profilePicture', '_id'], model: User })
                 .populate({ path: 'likes', select: ['username', 'profilePicture', '_id'], model: User })
                 .populate({ path: 'comments', select: ['username', 'profilePicture', '_id'], model: User })
-                .limit(10);
+                .limit(10)
+                .sort({createdAt: -1});
 
         return posts;
     } catch (err) {
