@@ -1,5 +1,5 @@
 //service functions 
-const { getUserById, updateUserById, deleteUserById, followUnfollowUserById, getFollowingsByUserId } = require('../services/userService');
+const { getAllUsers, getUserById, updateUserById, deleteUserById, followUnfollowUserById } = require('../services/userService');
 
 //middlewares
 const isAuthenticated = require('../middlewares/isAuthenticated');
@@ -21,28 +21,26 @@ userRouter.get('/:id', async (req, res) => {
     }
 });
 
-userRouter.get('/:id/followings', async (req, res) => {
-    const id = req.params.id;
-
+userRouter.get('/all/inapp', async (req, res) => {
     try {
-        const connections = await getFollowingsByUserId(id);
-
-        res.status(200).json(connections);
-
+        const users = await getAllUsers();
+        res.status(200).json(users);
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
-});
+})
+
+
 
 //edit user
 userRouter.put('/:id', isAuthenticated, async (req, res) => {
-    if(req.userData._id != req.params.id) {
+    if (req.userData._id != req.params.id) {
         return res.status(400).json({ error: 'You can edit only your profile!' });
     }
 
     try {
         const validProfileDetails = validateProfileDetailsFormat(req.body);
-        
+
         await updateUserById(req.params.id, validProfileDetails);
 
         res.status(200).json(validProfileDetails);
@@ -53,7 +51,7 @@ userRouter.put('/:id', isAuthenticated, async (req, res) => {
 
 //delete user
 userRouter.delete('/:id', isAuthenticated, async (req, res) => {
-    if(req.userData._id != req.params.id) {
+    if (req.userData._id != req.params.id) {
         return res.status(400).json({ error: 'You can delete only your profile!' });
     }
 
@@ -68,14 +66,14 @@ userRouter.delete('/:id', isAuthenticated, async (req, res) => {
 
 //follow user
 userRouter.post('/:id/follow', isAuthenticated, async (req, res) => {
-    if(req.userData._id == req.params.id) {
-        return res.status(400).json({ error: 'You can\'t follow yourself!'})
+    if (req.userData._id == req.params.id) {
+        return res.status(400).json({ error: 'You can\'t follow yourself!' })
     }
 
     try {
         await followUnfollowUserById(req.userData._id, req.params.id);
 
-        res.status(202).json({ message: 'Success!'})
+        res.status(202).json({ message: 'Success!' })
     } catch (err) {
         res.status(400).json({ error: err.message });
     }

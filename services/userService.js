@@ -1,6 +1,16 @@
 //models
 const User = require('../models/User');
 
+async function getAllUsers() {
+    try {
+        const users = await User.find({}).select(['_id', 'username', 'profilePicture']);
+
+        return users;
+    } catch (err) {
+        throw err;
+    }
+}
+
 async function getUserById(id) {
     try {
         const user = await User.findById(id)
@@ -15,18 +25,6 @@ async function getUserById(id) {
             followers: user.followers,
             followings: user.followings
         };
-    } catch (err) {
-        throw new Error('This user not exist!');
-    }
-}
-
-async function getFollowingsByUserId(userId) {
-    try {
-        const user = await User.findById(userId)
-            .populate({ path: 'followings', select: ['_id', 'username', 'profilePicture'] });
-
-
-        return [...user.followings];
     } catch (err) {
         throw new Error('This user not exist!');
     }
@@ -68,8 +66,8 @@ async function followUnfollowUserById(currentId, followId) {
 
 
 module.exports = {
+    getAllUsers,
     getUserById,
-    getFollowingsByUserId,
     updateUserById,
     deleteUserById,
     followUnfollowUserById,
