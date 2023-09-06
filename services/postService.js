@@ -82,7 +82,7 @@ async function getNewsFeedPosts(userId) {
             posts = posts.concat(ownPosts);
         }
 
-        return posts;
+        return posts.sort(() => Math.random() < 0.5 ? 1 : -1);
     } catch (err) {
         throw new Error(err.message);
     }
@@ -98,7 +98,7 @@ async function getFirstTenPosts() {
                 .limit(10)
                 .sort({createdAt: -1});
 
-        return posts;
+        return posts.sort(() => Math.random() < 0.5 ? 1 : -1);
     } catch (err) {
         throw new Error(err.message);
     }
