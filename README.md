@@ -257,3 +257,39 @@ fetch('http://localhost:3001/api/posts/:postId/like', {
 
 Success response: 202 OK { "message": "Sucess!"}
 ```
+
+```javascript
+>>> Get Likes for current post<<<
+
+fetch('http://localhost:3001/api/posts/:postId/likes')
+
+Success response: 200 OK [ ...likes ];
+```
+
+```javascript
+>>> Comment Post By PostId<<<
+
+fetch('http://localhost:3001/api/posts/:postId/comment', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-Authorization': 'here is your accessToken'
+    },
+    body: JSON.stringify({
+        comment: 'here is comment content'
+    })
+});
+
+Success response: 200 OK { "comment": "comment content", "owner": { "_id": "...", "profilePicture": "...", "username": "..."} }
+```
+
+```javascript
+>>> Get Comments for current post<<<
+
+//Must be authenticated with valid access token in request headers to perform this request
+//If you not like current post, the request is like, if you like current post, the request is unlike
+
+fetch('http://localhost:3001/api/posts/:postId/comments')
+
+Success response: 200 OK [ ...comments ];
+```

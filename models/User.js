@@ -6,7 +6,7 @@ const userSchema = new Schema({
     profilePicture: { type: String, default: '/assets/profile-pic.png' },
     coverPicture: { type: String, default: '/assets/empty-cover.png' },
     followers: { type: [Types.ObjectId], default: [], ref: 'User' },
-    followings: { type: [Types.ObjectId], default: [], ref: 'User'  }
+    followings: { type: [Types.ObjectId], default: [], ref: 'User'}
 }, { timestamps: true});
 
 const User = model('User', userSchema);
