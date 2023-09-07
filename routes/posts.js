@@ -4,6 +4,7 @@ const { createPost, getPostById, editPostById, deletePostById, getAllPostFromCur
 const isAuthenticated = require('../middlewares/isAuthenticated');
 //utils
 const validatePostFormat = require('../utils/validatePostFormat');
+const validateCommentFormat = require('../utils/validateCommentFormat');
 
 
 const postsRouter = require('express').Router();
@@ -111,7 +112,7 @@ postsRouter.post('/:id/comment', isAuthenticated, async (req, res) => {
     try {
         const userId = req.userData._id;
         const postId = req.params.id;
-        const comment = req.body;
+        const comment = validateCommentFormat(req.body);
 
         const newComment = await commentPost(userId, postId, comment);
 

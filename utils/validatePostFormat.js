@@ -1,4 +1,7 @@
 function validatePostFormat({owner, content, image, likes}) {
+    if(content == '') {
+        throw new Error('Post must have some content!');
+    }
     if(content.trim().length > 500) {
         throw new Error('Content can be 500 characters maximum.');
     }
