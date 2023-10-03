@@ -1,8 +1,20 @@
 # rest-api-express-mongo
+* Author - Iliyan Nikolaev M.
+* Release date - Q3'23
+
+### Introduction
+
+This is a REST API that is the backend part of the "Social Horizon" project. The API provides authentication and interaction capabilities with collections stored in a MongoDB database.
+
+### Used technologies
+* Language - Node.js
+* Library - [Express.js](https://expressjs.com/)
+* Database - MongoDB / cloud - [MongoDB Atlas](https://www.mongodb.com/atlas/database) 
+* ODM - [Mongoose](https://mongoosejs.com/)
 
 HOST: http://localhost:3001
 
-## AUTHENTICATION LOGIC SCHEME
+### AUTHENTICATION LOGIC SCHEME
 ![auth logic](authScheme.png)
 
 ### AUTH
