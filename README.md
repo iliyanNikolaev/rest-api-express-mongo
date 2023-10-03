@@ -8,7 +8,7 @@ This is a REST API that is the backend part of the "Social Horizon" project. The
 
 ### Used technologies
 * Language - Node.js
-* Library - [Express.js](https://expressjs.com/)
+* Libraries - [Express.js](https://expressjs.com/), [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken), [bcrypt](https://www.npmjs.com/package/bcrypt)
 * Database - MongoDB / cloud - [MongoDB Atlas](https://www.mongodb.com/atlas/database) 
 * ODM - [Mongoose](https://mongoosejs.com/)
 
